@@ -1,0 +1,159 @@
+﻿@model IEnumerable<Express.Models.WayBill>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h4>Waybills</h4>
+<hr />
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table id="displayTable" class="display table table-bordered" width="100%">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Reference)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AssignedToVehicle)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.VehicleStartsFrom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Destination)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.ParcelCount)
+            </th>
+            <th>
+                @Html.DisplayName("Total Weight(kg)")
+            </th>
+
+            @*<th>
+            @Html.DisplayNameFor(model => model.ContentDescription)
+        </th>*@
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </th>
+            <th>
+      
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                #@Html.DisplayFor(modelItem => item.Reference)
+            </td>
+            <td>
+                @if (item.AssignedToVehicle==null || string.IsNullOrWhiteSpace(item.AssignedToVehicle.VehicleDescription))
+                {
+                    <i style="color:orangered">Not Assigned</i>
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.AssignedToVehicle.VehicleDescription)
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VehicleStartsFrom)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Destination)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ParcelCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalWeight)
+            </td>
+
+
+            @*<td>
+            @Html.DisplayFor(modelItem => item.ContentDescription)
+        </td>*@
+
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedBy.Username)
+            </td>
+            <td>
+                @{
+
+                    var Date = string.Format("{0:dd-MMM-yyyy}", item.Date);
+                }
+                @Html.DisplayFor(modelItem => Date)
+            </td>
+
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+           if ('@TempData["DeleteSuccess"]' != "") {
+                Swal.fire({
+                    icon: 'success',
+                    title: "Successfully Deleted!",
+                    text: '@TempData["DeleteSuccess"]',
+                })
+            }
+           if ('@TempData["UpdateSuccess"]' != "") {
+                Swal.fire({
+                    icon: 'success',
+                    title: "Successfully Updated!",
+                    text: '@TempData["UpdateSuccess"]',
+                })
+            }
+            if ('@TempData["CreateSuccess"]' != "") {
+                Swal.fire({
+                    icon: 'success',
+                    title: "Successfully Created!",
+                    text: '@TempData["CreateSuccess"]',
+                })
+            }
+        });
+
+        $(function () {
+
+		// JSON data
+		var chartDataUrl = '@Url.Action("tableJsonData", "Tables")';
+
+		$('#displayTable').dataTable({
+			dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>tp",
+			"order": [[0, "asc"]],
+			responsive: true,
+			buttons: [
+			  { extend: 'copy', className: 'btn-sm' },
+			  { extend: 'csv', title: 'Waybills', className: 'btn-sm', exportOptions: { columns: 'th:not(:last-child)' } },
+                { extend: 'pdf', title: 'Waybills', className: 'btn-sm', exportOptions: { columns: 'th:not(:last-child)' } },
+			  { extend: 'print', className: 'btn-sm', exportOptions: { columns: 'th:not(:last-child)' } }
+			],
+
+			columnDefs: [{
+				"targets": [8],
+				"orderable": false,
+				"searchable": false
+			}]
+		});
+	});
+    </script>
+}

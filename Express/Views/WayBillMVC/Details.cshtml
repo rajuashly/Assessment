@@ -1,0 +1,91 @@
+﻿@model Express.Models.WayBill
+
+@{
+    ViewData["Title"] = "Details";
+}
+<div>
+    <h4>Waybill Details</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Reference)
+        </dt>
+        <dd class="col-sm-9">
+            #@Html.DisplayFor(model => model.Reference)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+        <dd class="col-sm-9">
+            @{
+
+                var DateFormatted = string.Format("{0:yyyy/MM/dd}", Model.Date);
+            }
+            @Html.DisplayFor(modelItem => DateFormatted)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.AssignedToVehicle)
+        </dt>
+        <dd class="col-sm-9">
+            @if (Model.AssignedToVehicle == null || string.IsNullOrWhiteSpace(Model.AssignedToVehicle.VehicleDescription))
+            {
+                <i style="color:orangered">Not Assigned</i>
+            }
+            else
+            {
+                @Html.DisplayFor(model => model.AssignedToVehicle.VehicleDescription)
+            }
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.VehicleStartsFrom)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.VehicleStartsFrom)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Destination)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Destination)
+        </dd>
+
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.ContentDescription)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.ContentDescription)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.ParcelCount)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.ParcelCount)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.TotalWeight)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.TotalWeight) kg
+        </dd>
+
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.CreatedBy)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.CreatedBy.Username)
+        </dd>
+
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.CreatedDate)
+        </dd>
+
+
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

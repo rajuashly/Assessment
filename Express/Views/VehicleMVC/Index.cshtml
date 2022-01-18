@@ -1,0 +1,130 @@
+﻿@model IEnumerable<Express.Models.Vehicle>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<h4>Vehicles</h4>
+<hr />
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table id="displayTable" class="display table table-bordered" width="100%">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Make)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Model)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Year)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Color)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Registration)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vinumber)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.ModifiedDate)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.Branch)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Make)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Model)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Year)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Color)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Registration)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Vinumber)
+                </td>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.ModifiedDate)
+                </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.Branch.Name)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+           if ('@TempData["DeleteSuccess"]' != "") {
+                Swal.fire({
+                    icon: 'success',
+                    title: "Successfully Deleted!",
+                    text: '@TempData["DeleteSuccess"]',
+                })
+            }
+           if ('@TempData["UpdateSuccess"]' != "") {
+                Swal.fire({
+                    icon: 'success',
+                    title: "Successfully Updated!",
+                    text: '@TempData["UpdateSuccess"]',
+                })
+            }
+            if ('@TempData["CreateSuccess"]' != "") {
+                Swal.fire({
+                    icon: 'success',
+                    title: "Successfully Created!",
+                    text: '@TempData["CreateSuccess"]',
+                })
+            }
+        });
+
+        $(function () {
+
+		// JSON data
+		var chartDataUrl = '@Url.Action("tableJsonData", "Tables")';
+
+		$('#displayTable').dataTable({
+			dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>tp",
+			"order": [[0, "asc"]],
+			responsive: true,
+			buttons: [
+			  { extend: 'copy', className: 'btn-sm' },
+			  { extend: 'csv', title: 'Vehicles', className: 'btn-sm', exportOptions: { columns: 'th:not(:last-child)' } },
+                { extend: 'pdf', title: 'Vehicles', className: 'btn-sm', exportOptions: { columns: 'th:not(:last-child)' } },
+			  { extend: 'print', className: 'btn-sm', exportOptions: { columns: 'th:not(:last-child)' } }
+			],
+
+			columnDefs: [{
+				"targets": [7],
+				"orderable": false,
+				"searchable": false
+			}]
+		});
+	});
+    </script>
+}

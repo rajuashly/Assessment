@@ -1,0 +1,53 @@
+﻿@model Express.Models.WayBill
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h4>Edit Waybill</h4>
+<hr />
+<form asp-action="Edit">
+    <span class="help-block">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    </span>
+    <div class="row">
+        <div class="col-md-4">
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="AssignedToVehicleId" class="control-label required"></label>
+                <select asp-for="AssignedToVehicleId" class="form-control" asp-items="ViewBag.AssignedToVehicleId"></select>
+                <span asp-validation-for="AssignedToVehicleId" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <input type="button" value="Save" id="btnSubmit" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+<script type="text/javascript">
+    $('#btnSubmit').on('click', function (e) {
+        var assignedtovehicleid = $('#AssignedToVehicleId').val();
+        var form = $(this).parents('form');
+        if (assignedtovehicleid == null || assignedtovehicleid == "" || assignedtovehicleid == 0) {
+            Swal.fire({
+                title: "Vehicle Not Selected!",
+                text: "Please select vehicle to be assigned to waybill",
+                icon: 'warning',
+            })
+        }
+        else {
+            form.submit();
+        }
+    });
+</script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

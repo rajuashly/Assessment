@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<h4>Welcome to Triton Express</h4>
+<hr />
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="card" style="margin:5px">
+            <div class="card-body">
+                <h5 class="card-title">Branches</h5>
+                <p class="card-text">Create, update, view and search for branches across the Southern African Continent.</p>
+                <a asp-area="" asp-controller="BranchMVC" asp-action="Create" class="card-link" style="float:left">Create New</a>
+                <a asp-area="" asp-controller="BranchMVC" asp-action="Index" class="card-link" style="float:right">View</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card" style="margin:5px">
+            <div class="card-body">
+                <h5 class="card-title">Vehicles</h5>
+                <p class="card-text">Create, update, view and search for vehicles. Vehicles are allocated to a specific branch.</p>
+                <a asp-area="" asp-controller="VehicleMVC" asp-action="Create" class="card-link" style="float:left">Create New</a>
+                <a asp-area="" asp-controller="VehicleMVC" asp-action="Index" class="card-link" style="float:right">View</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card" style="margin:5px">
+            <div class="card-body">
+                <h5 class="card-title">Waybills</h5>
+                <p class="card-text">Create, update, view and search for vehicles. Here you can also assign vehicles to waybills</p>
+                <a asp-area="" asp-controller="WayBillMVC" asp-action="Create" class="card-link" style="float:left">Create New</a>
+                <a asp-area="" asp-controller="WayBillMVC" asp-action="Index" class="card-link" style="float:right">View</a>
+            </div>
+        </div>
+    </div>
+</div>
+
